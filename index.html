@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Grade Evaluator — Harsh Verma</title>
+<meta name="description" content="Grade evaluator by Harsh Verma. Enter marks 0-100, get grade instantly." />
+<style>
+  :root{--bg:#000;--card:#0a0f0a;--line:rgba(34,197,94,.2);--accent:#22c55e;--text:#eef5ef;--muted:#9db8a4}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:Inter,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;display:grid;place-items:center;min-height:100vh;padding:24px}
+  .box{max-width:380px;width:100%;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+  small{font-family:monospace;color:var(--accent);font-size:.8rem}
+  h1{font-size:1.2rem;margin:6px 0 4px}
+  p{color:var(--muted);font-size:.9rem;margin-bottom:14px}
+  .hist{width:100%;font-family:monospace;font-size:.82rem;color:var(--muted);text-align:right;min-height:20px;margin-bottom:6px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+  .display{width:100%;background:#000;border:1px solid var(--line);border-radius:8px;color:var(--text);font-family:monospace;font-size:1.5rem;text-align:center;padding:14px;min-height:60px;margin-bottom:12px}
+  .display b{color:var(--accent)}
+  input{width:100%;background:#000;border:1px solid var(--line);border-radius:8px;color:var(--text);font-family:monospace;font-size:1.1rem;text-align:center;padding:12px;margin-bottom:10px}
+  .row{display:flex;gap:8px}
+  button{flex:1;background:var(--accent);color:#03170b;border:1px solid var(--accent);border-radius:8px;padding:12px;font-weight:700;cursor:pointer;font-size:1rem}
+  button.ghost{background:#060a06;color:var(--text);border:1px solid var(--line)}
+  button:hover{filter:brightness(1.1)}
+  a{color:var(--accent);font-size:.9rem;font-weight:600}
+</style>
+</head>
+<body>
+<div class="box">
+  <small>GRADE EVALUATOR — WEB DEMO</small>
+  <h1>Grade Evaluator</h1>
+  <p>Mirrors the console version. Enter 0–100, see grade instantly.</p>
+  <div class="hist" id="h"></div>
+  <div class="display" id="d">Enter marks, press Check</div>
+  <input id="m" type="number" min="0" max="100" step="0.1" placeholder="e.g. 82" aria-label="Marks 0 to 100" />
+  <div class="row">
+    <button id="go" type="button">Check grade</button>
+    <button id="cl" class="ghost" type="button">Clear</button>
+  </div>
+  <p style="margin-top:14px"><a href="https://github.com/harsh17908/grade-evaluator">View C source</a> · <a href="https://harsh17908.github.io/personal-portfolio/">Portfolio</a></p>
+</div>
+<script>
+(function(){
+  var d=document.getElementById('d'),h=document.getElementById('h'),m=document.getElementById('m');
+  function gradeFor(x){if(x>=90)return'A+';if(x>=80)return'A';if(x>=70)return'B';if(x>=60)return'C';if(x>=50)return'D';if(x>=33)return'E (Pass)';return'F (Fail)';}
+  function run(){
+    var v=parseFloat((m.value||'').trim());
+    if(isNaN(v)){d.textContent='Enter a number 0–100';h.textContent='';return;}
+    if(v<0||v>100){d.textContent='Error: 0–100 only';h.textContent='Input: '+m.value;return;}
+    var g=gradeFor(v);
+    h.textContent='Marks: '+v;
+    d.innerHTML='Grade: <b>'+g+'</b>'+(v<33?' — keep practicing':' — well done');
+  }
+  document.getElementById('go').addEventListener('click',run);
+  document.getElementById('cl').addEventListener('click',function(){m.value='';d.textContent='Enter marks, press Check';h.textContent='';m.focus();});
+  m.addEventListener('keydown',function(e){if(e.key==='Enter')run();});
+})();
+</script>
+</body>
+</html>
